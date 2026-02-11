@@ -23,16 +23,34 @@ class ball:
         if self.y >= max_h - self.radius:
             self.dy *= -1
 
-        if self.x <= 50 + self.radius or self.x >= 750 - self.radius:
+        if self.x <= 50 + self.radius:
             self.x = self.y = 400
+            self.dy = 0
+            self.dx*=-1
+            return True
+        elif self.x >= 750 - self.radius:
+            self.x = self.y = 400
+            self.dy = 0
+            self.dx *= -1
             return True
 
         return False
 
     def check_collide(self, paddle):
         paddle_rect = paddle.get_rect()
-        if pygame.Rect.colliderect(paddle_rect, pygame.Rect(self.x - self.radius, self.y - self.radius,  self.radius * 2, self.radius * 2)):
-            self.dx *= -1
+        ball_rect = pygame.Rect(self.x - self.radius, self.y - self.radius,  self.radius * 2, self.radius * 2)
+        if pygame.Rect.colliderect(paddle_rect, ball_rect):
+            print(paddle_rect.y + (paddle_rect.h / 2) - ball_rect.y)
+            if self.dx > 0:
+                new_vel = pygame.Vector2(-8, 0)
+                rotated_vel = new_vel.rotate(paddle_rect.y + (paddle_rect.h / 2) - ball_rect.y)
+
+            if self.dx < 0:
+                new_vel = pygame.Vector2(8, 0)
+                rotated_vel = new_vel.rotate(ball_rect.y - (paddle_rect.h / 2) - paddle_rect.y)
+
+            self.dx = rotated_vel.x
+            self.dy = rotated_vel.y
 
     def display(self, pygame, screen):
         pygame.draw.ellipse(screen, self.color, (self.x - self.radius, self.y - self.radius,  self.radius * 2, self.radius * 2))

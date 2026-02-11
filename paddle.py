@@ -26,7 +26,7 @@ class paddle:
             self.y = 800 - self.box_margin - (self.h / 2) # Move back to the edge of the bounds
 
     def get_rect(self):
-        return pygame.Rect(self.x, self.y, self.w, self.h)
+        return pygame.Rect(self.x - (self.w / 2), self.y - (self.h / 2), self.w, self.h)
 
     def display(self, pygame, screen):
         pygame.draw.rect(screen, self.color, (self.x - (self.w / 2), self.y - (self.h / 2), self.w, self.h))

@@ -5,9 +5,11 @@ from paddle import paddle
 class game:
     size = (0,0 )
     box_margin = 50
-    b = ball(100, 100, 4, 1)
+    b = ball(400, 400, 4, 1)
     p1 = paddle(100, 100)
     p2 = paddle(700, 100)
+
+    playing = False
 
     def __init__(self, screen_size):
         # Set own size to a smaller rectangle than the screen size
@@ -16,9 +18,10 @@ class game:
     def update(self, pygame):
         self.b.check_collide(self.p1)
         self.b.check_collide(self.p2)
-
-        if self.b.update(self.box_margin, self.size[1] + self.box_margin):
-            print("Ball hit screen")
+        if self.playing:
+            if self.b.update(self.box_margin, self.size[1] + self.box_margin):
+                print("Ball hit screen")
+                self.playing = False
 
         keys = pygame.key.get_pressed()
         player_1_movement = 0
@@ -26,11 +29,15 @@ class game:
 
         if keys[pygame.K_UP]:
             player_2_movement = -7
+            self.playing = True
         if keys[pygame.K_DOWN]:
             player_2_movement = 7
+            self.playing = True
         if keys[pygame.K_w]:
+            self.playing = True
             player_1_movement = -7
         if keys[pygame.K_s]:
+            self.playing = True
             player_1_movement = 7
 
         self.p1.update(player_1_movement, 0, self.size[1] - self.box_margin)
