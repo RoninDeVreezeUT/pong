@@ -1,14 +1,18 @@
 import random
 import pygame
+from game import game
 
 def main():
     """
     In Processing, this is where void setup() would be #
     """
     size = (800, 800)
+
     pygame.init()
     screen = pygame.display.set_mode(size)
     clock = pygame.time.Clock()
+
+    game_field = game(size)
 
     """
     Main game loop which will be executed every frame below
@@ -19,8 +23,11 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # If the screen is closed, quit the program
                 pygame.quit()
+
         # This draws canvas and elipse
-        screen.fill((255, 255, 255))
+        screen.fill((0, 0, 0))
+        game_field.update()
+        game_field.display(pygame, screen)
 
         # updates the entire canvas
         pygame.display.flip()
