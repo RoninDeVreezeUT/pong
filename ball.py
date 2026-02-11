@@ -1,3 +1,5 @@
+import pygame
+
 class ball:
     radius = 7
     x = 0
@@ -20,6 +22,17 @@ class ball:
             self.dy *= -1
         if self.y >= max_h - self.radius:
             self.dy *= -1
+
+        if self.x <= 50 + self.radius or self.x >= 750 - self.radius:
+            self.x = self.y = 400
+            return True
+
+        return False
+
+    def check_collide(self, paddle):
+        paddle_rect = paddle.get_rect()
+        if pygame.Rect.colliderect(paddle_rect, pygame.Rect(self.x - self.radius, self.y - self.radius,  self.radius * 2, self.radius * 2)):
+            self.dx *= -1
 
     def display(self, pygame, screen):
         pygame.draw.ellipse(screen, self.color, (self.x - self.radius, self.y - self.radius,  self.radius * 2, self.radius * 2))

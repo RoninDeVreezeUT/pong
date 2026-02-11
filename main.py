@@ -26,7 +26,7 @@ def main():
 
         # This draws canvas and elipse
         screen.fill((0, 0, 0))
-        game_field.update()
+        game_field.update(pygame)
         game_field.display(pygame, screen)
 
         # updates the entire canvas
